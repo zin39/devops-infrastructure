@@ -4,40 +4,22 @@ A complete self-hosted DevOps platform running in production, featuring Kubernet
 
 ## Architecture
 
-                                  INTERNET
-                                      │
-                                      ▼
-                          ┌───────────────────────┐
-                          │   Cloudflare DNS      │
-                          └───────────┬───────────┘
-                                      │
-                                      ▼
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ AWS EC2 GATEWAY │
-│ HAProxy (Load Balancer) + Headscale (Mesh VPN) │
-└───────────────────────────────────┬─────────────────────────────────────────┘
-│
-Headscale Mesh (100.64.0.0/10)
-│
-┌───────────────────────────────────┴─────────────────────────────────────────┐
-│ KUBERNETES CLUSTER (K3s) │
-│ │
-│ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ │
-│ │ k3s-master │ │ k3s-worker-01 │ │ k3s-worker-02 │ │
-│ │ │ │ │ │ │ │
-│ │ • Prometheus │ │ • GitLab │ │ • Jenkins │ │
-│ │ • Grafana │ │ • PostgreSQL │ │ • Harbor │ │
-│ │ • Loki │ │ • Redis │ │ • Gitaly │ │
-│ │ • Vault │ │ │ │ │ │
-│ │ • ArgoCD │ │ │ │ │ │
-│ └─────────────────┘ └─────────────────┘ └─────────────────┘ │
-│ │ │
-│ ┌───────────────┴───────────────┐ │
-│ │ CEPH STORAGE CLUSTER │ │
-│ │ 3 nodes / ~230GB allocated │ │
-│ └───────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────────┘
+INTERNET
+|
+v
+[Cloudflare DNS] --> [AWS EC2 Gateway: HAProxy + Headscale]
+|
+(Headscale Mesh VPN)
+|
++-----------------+-----------------+
+| | |
+v v v
+[k3s-master] [k3s-worker-01] [k3s-worker-02] - Prometheus - GitLab - Jenkins - Grafana - PostgreSQL - Harbor - Loki - Redis - Gitaly - Vault - ArgoCD
+| | |
++-----------------+-----------------+
+|
+[Ceph Storage Cluster]
+3 nodes / ~230GB
 
 ## Components
 
