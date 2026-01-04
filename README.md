@@ -1,6 +1,18 @@
 # Production DevOps Infrastructure
 
-A complete self-hosted DevOps platform running in production, featuring Kubernetes, CI/CD pipelines, GitOps, and comprehensive monitoring.
+> Self-hosted DevOps platform running 12+ production services with GitOps, automated CI/CD, and full observability.
+
+A complete infrastructure stack built for reliability: Kubernetes orchestration, automated pipelines, centralized secrets, and comprehensive monitoring.
+
+## Highlights
+
+| Metric | Value |
+|--------|-------|
+| Uptime | 99%+ over 6 months |
+| Deployment Time | ~5 minutes (commit to production) |
+| Monitoring Coverage | 21 Prometheus scrape targets |
+| Storage | ~230GB distributed Ceph cluster |
+| Services | 12+ production workloads |
 
 ## Architecture
 
@@ -63,9 +75,6 @@ flowchart LR
     D --> E[Harbor Registry]
     E --> F[ArgoCD]
     F --> G[K3s Cluster]
-
-    style A fill:#e1f5fe
-    style G fill:#c8e6c9
 ```
 
 | Stage | Tool | Purpose |
@@ -74,6 +83,16 @@ flowchart LR
 | Build | Jenkins + Kaniko | Rootless container builds |
 | Registry | Harbor | Image storage + vulnerability scanning (Trivy) |
 | Deploy | ArgoCD | GitOps-based continuous deployment |
+
+## How Deployments Work
+
+1. **Developer pushes code** to GitLab repository
+2. **Webhook triggers Jenkins** pipeline automatically
+3. **Kaniko builds container** image (rootless, no privileged containers)
+4. **Image pushed to Harbor** with Trivy vulnerability scan
+5. **Jenkins updates image tag** in GitOps repository
+6. **ArgoCD detects change** and syncs to cluster (within 3 minutes)
+7. **Kubernetes performs rolling update** with zero downtime
 
 ## Components
 
