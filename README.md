@@ -1,6 +1,6 @@
 # Production DevOps Infrastructure
 
-> Self-hosted DevOps platform running 12+ production services with GitOps, automated CI/CD, and full observability.
+> Self-hosted DevOps platform with GitOps, automated CI/CD, and full observability.
 
 A complete infrastructure stack built for reliability: Kubernetes orchestration, automated pipelines, centralized secrets, and comprehensive monitoring.
 
@@ -8,11 +8,10 @@ A complete infrastructure stack built for reliability: Kubernetes orchestration,
 
 | Metric | Value |
 |--------|-------|
-| Uptime | 99%+ over 6 months |
 | Deployment Time | ~5 minutes (commit to production) |
 | Monitoring Coverage | 21 Prometheus scrape targets |
 | Storage | ~230GB distributed Ceph cluster |
-| Services | 12+ production workloads |
+| Services | 12+ workloads |
 
 ## Architecture
 
@@ -101,7 +100,7 @@ flowchart LR
 | Aspect | Details |
 |--------|---------|
 | Cluster | 1 master + 2 workers |
-| Workloads | 12+ production services |
+| Workloads | 12+ services |
 | Ingress | Nginx Ingress Controller |
 | Certificates | cert-manager with Let's Encrypt |
 | Load Balancer | MetalLB |
@@ -202,5 +201,3 @@ flowchart LR
 - [ ] Automated integration testing in pipeline
 
 ---
-
-*This infrastructure is actively running and maintained.*
